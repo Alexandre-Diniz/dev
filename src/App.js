@@ -310,7 +310,7 @@ function App() {
                 }}
               >
                 Somos uma empresa jovem, em fase de expansão. Oferecemos
-                soluções disruptivas com foco na solução rápida e prática dos
+                soluções inovadoras com foco na solução rápida e prática dos
                 seus problemas.
                 <br />
                 <br />
@@ -358,7 +358,7 @@ function App() {
                   padding: '0px',
                 }}
               >
-                <p style={{ color: '#ddd' }}>alexandre.diniz.dias@gmail.com</p>
+                <a target="_blank" href="mailto:alexandre.diniz.dias@gmail.com?subject=Soliciar Orçamento" style={{ color: '#ddd', textDecoration:'none' }}>alexandre.diniz.dias@gmail.com</a>
                 <EmailOutlined
                   fontSize="small"
                   htmlColor="#fff"
@@ -371,10 +371,10 @@ function App() {
                   justifyContent: 'center',
                   alignItems: 'center',
                   margin: '0px',
-                  padding: '0px',
+                  paddingTop: '20px',
                 }}
               >
-                <p style={{ color: '#ddd' }}>(98) 98426-6968</p>
+                <a target="_blank" href="https://api.whatsapp.com/send?phone=5598984266968" style={{ color: '#ddd', textDecoration:'none' }}>(98) 98426-6968</a>
                 <WhatsApp
                   fontSize="small"
                   htmlColor="#fff"
