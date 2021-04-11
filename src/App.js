@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
 import { Container, Grid, Paper, Button, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -28,16 +28,25 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function App() {
-  const [spacing, setSpacing] = React.useState(2)
+  const [widthScreen, setWidthScreen] = useState(window.innerWidth)
   const classes = useStyles()
   const serviceRef = useRef()
   const homeRef = useRef()
   const aboutRef = useRef()
   const contactRef = useRef()
 
-  const handleChange = (event) => {
-    setSpacing(Number(event.target.value))
+  const veriftyWidth = () => {
+    const width = window.innerWidth
+    if (width <= 360) {
+    }
   }
+
+  useLayoutEffect(() => {
+    window.addEventListener('resize', () => setWidthScreen(window.innerWidth))
+  })
+
+  useEffect(() => {})
+
   return (
     <div className="App">
       <div style={{}}>
@@ -52,7 +61,7 @@ function App() {
             borderBottomStyle: 'solid',
           }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={widthScreen <= 360 ? (widthScreen <= 500 ? 12 : 3) : 2}>
             <Container
               maxWidth="sm"
               style={{
@@ -67,57 +76,68 @@ function App() {
                 color="primary"
                 onClick={() => {
                   let pos = homeRef.current.offsetTop
-                  window.scrollTo({ behavior:'smooth', top:pos })
+                  window.scrollTo({ behavior: 'smooth', top: pos })
                 }}
               >
-                Bem-Vindo
+                {widthScreen <= 800 ? 'DEV' : 'Bem-Vindo'}
               </Button>
             </Container>
           </Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={2} style={{}}>
-            <Button
-              style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
-              color="primary"
-              onClick={() => {
-                let pos = serviceRef.current.offsetTop
-                window.scrollTo({ behavior:'smooth', top:pos })
-              }}
-            >
-              Serviços
-            </Button>
-          </Grid>
-          <Grid item xs={2} style={{}}>
-            <Button
-              style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
-              color="primary"
-              onClick={() => {
-                let pos = aboutRef.current.offsetTop
-                window.scrollTo({ behavior:'smooth', top:pos })
-              }}
-            >
-              Sobre Nós
-            </Button>
-          </Grid>
-          <Grid item xs={2}>
-            <Button
-              style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
-              color="primary"
-              onClick={() => {
-                let pos = contactRef.current.offsetTop
-                window.scrollTo({ behavior:'smooth', top:pos })
-              }}
-            >
-              Contato
-            </Button>
-          </Grid>
+          {widthScreen <= 360 ? null : (
+            <>
+              {widthScreen <= 500 ? null : <Grid item xs={3}></Grid>}
+              <Grid item xs={widthScreen <= 500 ? 3 : 2} style={{}}>
+                <Button
+                  style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
+                  color="primary"
+                  onClick={() => {
+                    let pos = serviceRef.current.offsetTop
+                    window.scrollTo({ behavior: 'smooth', top: pos })
+                  }}
+                >
+                  Serviços
+                </Button>
+              </Grid>
+              <Grid item xs={widthScreen <= 500 ? 4 : 2} style={{}}>
+                <Button
+                  style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
+                  color="primary"
+                  onClick={() => {
+                    let pos = aboutRef.current.offsetTop
+                    window.scrollTo({ behavior: 'smooth', top: pos-50 })
+                  }}
+                >
+                  Sobre Nós
+                </Button>
+              </Grid>
+              <Grid item xs={widthScreen <= 500 ? 3 : 2}>
+                <Button
+                  style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
+                  color="primary"
+                  onClick={() => {
+                    let pos = contactRef.current.offsetTop
+                    window.scrollTo({ behavior: 'smooth', top: pos })
+                  }}
+                >
+                  Contato
+                </Button>
+              </Grid>
+            </>
+          )}
         </Grid>
-        <Container maxWidth="lg" style={{ width: '100%' }} innerRef={homeRef}>
+        <Container
+          maxWidth="lg"
+          style={{
+            width: '100%',
+            paddingTop: widthScreen < 500 ? '30px' : '0px',
+          }}
+          innerRef={homeRef}
+        >
           <Grid container>
             <Grid item xs={1} />
             <Grid
               item
-              xs={4}
+              xs={widthScreen <= 500 ? 12 : 4}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -135,7 +155,7 @@ function App() {
                 personalizadas.
               </p>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={widthScreen <= 500 ? 12 : 5}>
               <img src={work} alt="logo" width="100%" />
             </Grid>
           </Grid>
@@ -157,108 +177,111 @@ function App() {
             flexDirection: 'column',
           }}
         >
-          <p
-            style={{
-              color: '#fff',
-              fontSize: '20px',
-              fontWeight: '600',
-              paddingTop: '30px',
-            }}
-          >
-            SERVIÇOS
-          </p>
-          <Grid container>
-            <Grid item xs={1} />
-            <Grid item xs={5}>
-              <img src={servicos} width="80%" />
-            </Grid>
-            <Grid
-              item
-              xs={6}
+          <Container maxWidth="lg">
+            <p
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-around',
+                color: '#fff',
+                fontSize: '20px',
+                fontWeight: '600',
+                paddingTop: '30px',
               }}
             >
-              <Container
-                maxWidth="lg"
+              SERVIÇOS
+            </p>
+            <Grid container>
+              <Grid item xs={1} />
+              <Grid item xs={widthScreen <= 500 ? 12 : 5}>
+                <img src={servicos} width="100%" />
+              </Grid>
+              <Grid
+                item
+                xs={widthScreen <= 500 ? 12 : 5}
                 style={{
                   display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
+                  flexDirection: 'column',
+                  justifyContent: 'space-around',
                 }}
               >
-                <p style={{ color: '#fff', marginRight: '10px' }}>
-                  Desenvolvimento de Aplicativos Móveis
-                </p>
-                <div
+                <Container
+                  maxWidth="lg"
                   style={{
-                    borderRadius: '50px',
-                    background: '#fff',
-                    height: '50px',
-                    width: '50px',
                     display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    justifyContent: 'flex-end',
                   }}
                 >
-                  <TabletMac fontSize="default" htmlColor="#282c34" />
-                </div>
-              </Container>
-              <Container
-                maxWidth="lg"
-                style={{ display: 'flex', justifyContent: 'flex-end' }}
-              >
-                <p style={{ color: '#fff', marginRight: '10px' }}>
-                  Desenvolvimento de Landing Pages
-                </p>
-                <div
-                  className="service-icon"
-                  style={{
-                    borderRadius: '50px',
-                    backgroundColor: '#fff',
-                    height: '50px',
-                    width: '50px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  <p style={{ color: '#fff', marginRight: '10px', width:'80%', textAlign:widthScreen<500?'center':'end' }}>
+                    Desenvolvimento de Aplicativos Móveis
+                  </p>
+                  <div
+                    style={{
+                      borderRadius: '50px',
+                      background: '#fff',
+                      height: '50px',
+                      width: '50px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      overflow:'hidden'
+                    }}
+                  >
+                    <TabletMac fontSize="default" htmlColor="#282c34" />
+                  </div>
+                </Container>
+                <Container
+                  maxWidth="lg"
+                  style={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
-                  <LaptopMac fontSize="default" htmlColor="#282c34" />
-                </div>
-              </Container>
-              <Container
-                maxWidth="lg"
-                style={{ display: 'flex', justifyContent: 'flex-end' }}
-              >
-                <p style={{ color: '#fff', marginRight: '10px' }}>
-                  Desenvolvimento de WebApps
-                </p>
-                <div
-                  style={{
-                    borderRadius: '50px',
-                    background: '#fff',
-                    height: '50px',
-                    width: '50px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  <p style={{ color: '#fff', marginRight: '10px', width:'80%', textAlign:widthScreen<500?'center':'end' }}>
+                    Desenvolvimento de Landing Pages
+                  </p>
+                  <div
+                    className="service-icon"
+                    style={{
+                      borderRadius: '50px',
+                      backgroundColor: '#fff',
+                      height: '50px',
+                      width: '50px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <LaptopMac fontSize="default" htmlColor="#282c34" />
+                  </div>
+                </Container>
+                <Container
+                  maxWidth="lg"
+                  style={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
-                  <DesktopMac fontSize="default" htmlColor="#282c34" />
-                </div>
-              </Container>
+                  <p style={{ color: '#fff', marginRight: '10px', width:'80%', textAlign:widthScreen<500?'center':'end' }}>
+                    Desenvolvimento de WebApps
+                  </p>
+                  <div
+                    style={{
+                      borderRadius: '50px',
+                      background: '#fff',
+                      height: '50px',
+                      width: '50px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <DesktopMac fontSize="default" htmlColor="#282c34" />
+                  </div>
+                </Container>
+              </Grid>
             </Grid>
-          </Grid>
+          </Container>
         </Grid>
 
         <Container
-          innerRef={aboutRef}
+          
           maxWidth="lg"
           style={{ background: '#fff', paddingBottom: '30px' }}
         >
           <p
+          ref={aboutRef}
             style={{
               color: '#282c34',
               fontSize: '20px',
@@ -272,7 +295,7 @@ function App() {
             <Grid item xs={1} />
             <Grid
               item
-              xs={6}
+              xs={widthScreen<=700?12:6}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -298,7 +321,7 @@ function App() {
                 <br />O nosso suporte também está a sua disposição.
               </p>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={widthScreen<=700?12:5}>
               <img src={champion} width="100%" />
             </Grid>
           </Grid>
@@ -310,7 +333,7 @@ function App() {
             background: '#282c34',
             display: 'flex',
             flexDirection: 'column',
-            paddingBottom:'50px'
+            paddingBottom: '50px',
           }}
         >
           <p
