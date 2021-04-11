@@ -358,7 +358,7 @@ function App() {
                   padding: '0px',
                 }}
               >
-                <a target="_blank" href="mailto:alexandre.diniz.dias@gmail.com?subject=Soliciar Orçamento" style={{ color: '#ddd', textDecoration:'none' }}>alexandre.diniz.dias@gmail.com</a>
+                <a target="_blank" href="mailto:alexandre.diniz.dias@gmail.com?subject=Solicitar Orçamento" style={{ color: '#ddd', textDecoration:'none' }}>alexandre.diniz.dias@gmail.com</a>
                 <EmailOutlined
                   fontSize="small"
                   htmlColor="#fff"
