@@ -67,7 +67,7 @@ function App() {
               justifyContent: 'center',
               alignItems: 'center',
             }}
-            xs={adjustedValue([360, 400, 500, 700, 1000], [10, 2, 2, 2, 1])}
+            xs={adjustedValue([360, 400, 500, 700, 1000], [8, 2, 2, 2, 1])}
           >
             <Button
               style={{
