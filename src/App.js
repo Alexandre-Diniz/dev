@@ -1,44 +1,32 @@
 import React, { useRef, useEffect, useLayoutEffect, useState } from 'react'
-import { Container, Grid, Paper, Button, Divider } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Container, Grid, Button } from '@material-ui/core'
 import {
   TabletMac,
   LaptopMac,
   DesktopMac,
   WhatsApp,
-  MailOutline,
   EmailOutlined,
 } from '@material-ui/icons'
 
-import logo from './logo.svg'
+import logo from './assets/images/icon.svg'
 import work from './assets/images/work.jpg'
 import servicos from './assets/images/servicos.png'
 import champion from './assets/images/champions.jpg'
 import './App.css'
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    height: '100px',
-  },
-  serviceIcon: {},
-}))
-
 function App() {
   const [widthScreen, setWidthScreen] = useState(window.innerWidth)
-  const classes = useStyles()
   const serviceRef = useRef()
   const homeRef = useRef()
   const aboutRef = useRef()
   const contactRef = useRef()
 
-  const veriftyWidth = () => {
-    const width = window.innerWidth
-    if (width <= 360) {
-    }
+  const adjustedValue = (dimensions = [], values = []) => {
+    let value = values[0]
+    let dim = dimensions.find((dimension) => widthScreen <= dimension)
+    dim = dim === undefined ? dimensions[dimensions.length - 1] : dim
+    value = values[dimensions.findIndex((item) => item === dim)]
+    return value
   }
 
   useLayoutEffect(() => {
@@ -61,68 +49,127 @@ function App() {
             borderBottomStyle: 'solid',
           }}
         >
-          <Grid item xs={widthScreen <= 360 ? (widthScreen <= 500 ? 12 : 3) : 2}>
-            <Container
-              maxWidth="sm"
+          <Grid
+            item
+            xs={adjustedValue([360, 400, 500, 700, 1000], [2, 1, 1, 1, 1])}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <img src={logo} width="30px" alt="logo em forma de hexagono" />
+          </Grid>
+          <Grid
+            item
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            xs={adjustedValue([360, 400, 500, 700, 1000], [10, 2, 2, 2, 1])}
+          >
+            <Button
+              style={{
+                fontFamily: 'Montserrat',
+                fontWeight: '600',
+                fontSize: '9pt',
+              }}
+              color="primary"
+              onClick={() => {
+                let pos = homeRef.current.offsetTop
+                window.scrollTo({ behavior: 'smooth', top: pos })
+              }}
+            >
+              DEV
+            </Button>
+          </Grid>
+          <Grid
+            style={{ display: 'flex' }}
+            item
+            xs={
+              adjustedValue([360, 400, 500, 700, 1000], [0, 0, 0, 3, 4])
+                ? adjustedValue([360, 400, 500, 700, 1000], [0, 0, 0, 3, 4])
+                : false
+            }
+          ></Grid>
+          {widthScreen <= 360 ? null : (
+            <Grid
+              item
+              xs={adjustedValue([360, 400, 500, 700, 1000], [2, 3, 3, 2, 2])}
               style={{
                 display: 'flex',
-                height: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
               <Button
-                style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
+                style={{
+                  fontFamily: 'Montserrat',
+                  fontWeight: '600',
+                  fontSize: '9pt',
+                }}
                 color="primary"
                 onClick={() => {
-                  let pos = homeRef.current.offsetTop
+                  let pos = serviceRef.current.offsetTop
                   window.scrollTo({ behavior: 'smooth', top: pos })
                 }}
               >
-                {widthScreen <= 800 ? 'DEV' : 'Bem-Vindo'}
+                Serviços
               </Button>
-            </Container>
-          </Grid>
+            </Grid>
+          )}
           {widthScreen <= 360 ? null : (
-            <>
-              {widthScreen <= 500 ? null : <Grid item xs={3}></Grid>}
-              <Grid item xs={widthScreen <= 500 ? 3 : 2} style={{}}>
-                <Button
-                  style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
-                  color="primary"
-                  onClick={() => {
-                    let pos = serviceRef.current.offsetTop
-                    window.scrollTo({ behavior: 'smooth', top: pos })
-                  }}
-                >
-                  Serviços
-                </Button>
-              </Grid>
-              <Grid item xs={widthScreen <= 500 ? 4 : 2} style={{}}>
-                <Button
-                  style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
-                  color="primary"
-                  onClick={() => {
-                    let pos = aboutRef.current.offsetTop
-                    window.scrollTo({ behavior: 'smooth', top: pos-50 })
-                  }}
-                >
-                  Sobre Nós
-                </Button>
-              </Grid>
-              <Grid item xs={widthScreen <= 500 ? 3 : 2}>
-                <Button
-                  style={{ fontFamily: 'Montserrat', fontWeight: '600' }}
-                  color="primary"
-                  onClick={() => {
-                    let pos = contactRef.current.offsetTop
-                    window.scrollTo({ behavior: 'smooth', top: pos })
-                  }}
-                >
-                  Contato
-                </Button>
-              </Grid>
-            </>
+            <Grid
+              item
+              xs={adjustedValue([360, 400, 500, 700, 1000], [2, 3, 3, 2, 2])}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Button
+                style={{
+                  fontFamily: 'Montserrat',
+                  fontWeight: '600',
+                  fontSize: '9pt',
+                }}
+                color="primary"
+                onClick={() => {
+                  let pos = aboutRef.current.offsetTop
+                  window.scrollTo({ behavior: 'smooth', top: pos - 50 })
+                }}
+              >
+                Sobre Nós
+              </Button>
+            </Grid>
+          )}
+          {widthScreen <= 360 ? null : (
+            <Grid
+              item
+              xs={adjustedValue([360, 400, 500, 700, 1000], [2, 3, 3, 2, 2])}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Button
+                style={{
+                  fontFamily: 'Montserrat',
+                  fontWeight: '600',
+                  fontSize: '9pt',
+                }}
+                color="primary"
+                onClick={() => {
+                  let pos = contactRef.current.offsetTop
+                  window.scrollTo({ behavior: 'smooth', top: pos })
+                }}
+              >
+                Contato
+              </Button>
+            </Grid>
           )}
         </Grid>
         <Container
@@ -156,7 +203,7 @@ function App() {
               </p>
             </Grid>
             <Grid item xs={widthScreen <= 500 ? 12 : 5}>
-              <img src={work} alt="logo" width="100%" />
+              <img src={work} alt="mulher usando notebook" width="100%" />
             </Grid>
           </Grid>
         </Container>
@@ -191,7 +238,7 @@ function App() {
             <Grid container>
               <Grid item xs={1} />
               <Grid item xs={widthScreen <= 500 ? 12 : 5}>
-                <img src={servicos} width="100%" />
+                <img src={servicos} alt="pessaos trabalhando" width="100%" />
               </Grid>
               <Grid
                 item
@@ -209,7 +256,14 @@ function App() {
                     justifyContent: 'flex-end',
                   }}
                 >
-                  <p style={{ color: '#fff', marginRight: '10px', width:'80%', textAlign:widthScreen<500?'center':'end' }}>
+                  <p
+                    style={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      width: '80%',
+                      textAlign: widthScreen < 500 ? 'center' : 'end',
+                    }}
+                  >
                     Desenvolvimento de Aplicativos Móveis
                   </p>
                   <div
@@ -221,7 +275,7 @@ function App() {
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      overflow:'hidden'
+                      overflow: 'hidden',
                     }}
                   >
                     <TabletMac fontSize="default" htmlColor="#282c34" />
@@ -231,7 +285,14 @@ function App() {
                   maxWidth="lg"
                   style={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
-                  <p style={{ color: '#fff', marginRight: '10px', width:'80%', textAlign:widthScreen<500?'center':'end' }}>
+                  <p
+                    style={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      width: '80%',
+                      textAlign: widthScreen < 500 ? 'center' : 'end',
+                    }}
+                  >
                     Desenvolvimento de Landing Pages
                   </p>
                   <div
@@ -253,7 +314,14 @@ function App() {
                   maxWidth="lg"
                   style={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
-                  <p style={{ color: '#fff', marginRight: '10px', width:'80%', textAlign:widthScreen<500?'center':'end' }}>
+                  <p
+                    style={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      width: '80%',
+                      textAlign: widthScreen < 500 ? 'center' : 'end',
+                    }}
+                  >
                     Desenvolvimento de WebApps
                   </p>
                   <div
@@ -276,12 +344,11 @@ function App() {
         </Grid>
 
         <Container
-          
           maxWidth="lg"
           style={{ background: '#fff', paddingBottom: '30px' }}
         >
           <p
-          ref={aboutRef}
+            ref={aboutRef}
             style={{
               color: '#282c34',
               fontSize: '20px',
@@ -295,7 +362,7 @@ function App() {
             <Grid item xs={1} />
             <Grid
               item
-              xs={widthScreen<=700?12:6}
+              xs={widthScreen <= 700 ? 12 : 6}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -321,8 +388,8 @@ function App() {
                 <br />O nosso suporte também está a sua disposição.
               </p>
             </Grid>
-            <Grid item xs={widthScreen<=700?12:5}>
-              <img src={champion} width="100%" />
+            <Grid item xs={widthScreen <= 700 ? 12 : 5}>
+              <img src={champion} alt="mulher sendo campeã" width="100%" />
             </Grid>
           </Grid>
         </Container>
@@ -358,7 +425,14 @@ function App() {
                   padding: '0px',
                 }}
               >
-                <a target="_blank" href="mailto:alexandre.diniz.dias@gmail.com?subject=Solicitar Orçamento" style={{ color: '#ddd', textDecoration:'none' }}>alexandre.diniz.dias@gmail.com</a>
+                <a
+                  target="_blank"
+                  rel="noreferer"
+                  href="mailto:alexandre.diniz.dias@gmail.com?subject=Solicitar Orçamento"
+                  style={{ color: '#ddd', textDecoration: 'none' }}
+                >
+                  alexandre.diniz.dias@gmail.com
+                </a>
                 <EmailOutlined
                   fontSize="small"
                   htmlColor="#fff"
@@ -374,7 +448,14 @@ function App() {
                   paddingTop: '20px',
                 }}
               >
-                <a target="_blank" href="https://api.whatsapp.com/send?phone=5598984266968" style={{ color: '#ddd', textDecoration:'none' }}>(98) 98426-6968</a>
+                <a
+                  target="_blank"
+                  rel="noreferer"
+                  href="https://api.whatsapp.com/send?phone=5598984266968"
+                  style={{ color: '#ddd', textDecoration: 'none' }}
+                >
+                  (98) 98426-6968
+                </a>
                 <WhatsApp
                   fontSize="small"
                   htmlColor="#fff"
